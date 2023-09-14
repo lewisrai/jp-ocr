@@ -1,13 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
 
 views = Blueprint(__name__, "views")
 
 
 @views.route("/")
 def home():
-    return "This is the home page!"
-
-
-@views.route("/nothome")
-def nothome():
-    return "This is not the home page!"
+    return render_template("home.html")
