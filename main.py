@@ -4,10 +4,20 @@ from manga_ocr import MangaOcr
 from PIL import Image
 import base64
 import re
+import yaml
+
+
+with open("config.yml", "r") as configFile:
+    configSettings = yaml.safe_load(configFile);
+
+
+if (configSettings["useLocalModel"]):
+    mocr = MangaOcr(pretrained_model_name_or_path="mocrModel")
+else:
+    mocr = MangaOcr()
 
 
 app = Flask(__name__)
-mocr = MangaOcr()
 
 
 @app.route("/")
@@ -23,4 +33,4 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, port=8000)
+    app.run(debug=configSettings["debug"], port=configSettings["port"])

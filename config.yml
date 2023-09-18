@@ -1,0 +1,3 @@
+useLocalModel: True
+debug: False
+port: 6969
