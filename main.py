@@ -7,7 +7,7 @@ import re
 
 
 app = Flask(__name__)
-# mocr = MangaOcr()
+mocr = MangaOcr()
 
 
 @app.route("/")
@@ -19,9 +19,8 @@ def home():
 def process():
     img_b64 = re.sub("^data:image/.+;base64,", "", request.form["imageBase64"])
     img = Image.open(BytesIO(base64.b64decode(img_b64)))
-    img.save("downloaded.png")
-    return ""
+    return mocr(img)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8000)
+    app.run(debug=False, port=8000)
