@@ -8,5 +8,7 @@ Run the bat file to run the code. To create a shortcut, use the bat file as the 
 Make sure flask and manga-ocr is installed using pip.
 ```
 pip3 install flask
+```
+```
 pip3 install manga-ocr
 ```
