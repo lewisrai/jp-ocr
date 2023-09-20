@@ -4,6 +4,7 @@ from manga_ocr import MangaOcr
 from PIL import Image
 import base64
 import re
+import webbrowser
 import yaml
 
 
@@ -33,4 +34,5 @@ def process():
 
 
 if __name__ == "__main__":
+    webbrowser.open("http://127.0.0.1:{}".format(configSettings["port"]))
     app.run(debug=configSettings["debug"], port=configSettings["port"])
