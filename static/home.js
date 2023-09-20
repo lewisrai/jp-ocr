@@ -9,7 +9,7 @@ function startVideoStream() {
                 ideal: 1600
             },
             framerate: {
-                max: 30
+                max: 15
             }
         }
     }).then(stream => {
@@ -22,8 +22,6 @@ function startVideoStream() {
 function sendImageForProcess(x, y, width, height) {
     console.log("INFO: Cropping User Selection");
 
-    fullCanvas.width = videoStreamID.videoWidth;
-    fullCanvas.height = videoStreamID.videoHeight;
     fullCanvas.getContext('2d').drawImage(videoStreamID, 0, 0);
 
     croppedCanvas.width = width;
@@ -52,13 +50,23 @@ function sendImageForProcess(x, y, width, height) {
 
 
 function cropSelectedArea(event) {
-    if (secondClick == false) {
-        selectionStartX = event.offsetX * 4;
-        selectionStartY = event.offsetY * 4;
-        secondClick = true;
+    if (firstTime == true) {
+        streamResolutionX = videoStreamID.videoWidth;
+        streamResolutionY = videoStreamID.videoHeight;
+        fullCanvas.width = streamResolutionX;
+        fullCanvas.height = streamResolutionY;
+        console.log("INFO: Stream Resolution: " + streamResolutionX + "x" + streamResolutionY);
+        firstTime = false;
+    }
+
+    if (secondSelectionClick == false) {
+        selectionStartX = event.offsetX * streamResolutionX / 640;
+        selectionStartY = event.offsetY * streamResolutionY / 400;
+        secondSelectionClick = true;
     }
     else {
-        sendImageForProcess(selectionStartX, selectionStartY, (event.offsetX * 4) - selectionStartX, (event.offsetY * 4) - selectionStartY);
+        sendImageForProcess(selectionStartX, selectionStartY, (event.offsetX * streamResolutionX / 640) - selectionStartX, (event.offsetY * streamResolutionY / 400) - selectionStartY);
+        secondSelectionClick = false;
     }
 }
 
@@ -77,7 +85,13 @@ startVideoStream()
 
 videoStreamID.addEventListener('click', cropSelectedArea);
 
-var secondClick = false;
+var streamResolutionX = undefined;
+
+var streamResolutionY = undefined;
+
+var firstTime = true;
+
+var secondSelectionClick = false;
 
 var selectionStartX = undefined;
 
