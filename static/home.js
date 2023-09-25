@@ -13,13 +13,13 @@ function startVideoStream() {
             }
         }
     }).then(stream => {
-        console.log("INFO: Successfully Capturing Screen");
         videoStreamID.srcObject = stream;
+        console.log("INFO: Successfully Capturing Screen");
     }).catch(console.error)
 }
 
 
-function sendImageForProcess(x, y, width, height) {
+function cropAndProcessImage(x, y, width, height) {
     console.log("INFO: Cropping User Selection");
 
     fullCanvas.getContext('2d').drawImage(videoStreamID, 0, 0);
@@ -28,7 +28,7 @@ function sendImageForProcess(x, y, width, height) {
     croppedCanvas.height = height;
     croppedCanvas.getContext('2d').drawImage(fullCanvas, x, y, width, height, 0, 0, width, height);
 
-    displayedCanvasID.getContext('2d').drawImage(croppedCanvas, 0, 0, width, height, 0, 0, 640, 400);
+    displayedCanvasID.getContext('2d').drawImage(croppedCanvas, 0, 0, width, height, 0, 0, displayedCanvasID.width, displayedCanvasID.height);
 
     const dataURL = croppedCanvas.toDataURL();
 
@@ -49,7 +49,7 @@ function sendImageForProcess(x, y, width, height) {
 }
 
 
-function cropSelectedArea(event) {
+function userSelectedArea(event) {
     if (firstTime == true) {
         streamResolutionX = videoStreamID.videoWidth;
         streamResolutionY = videoStreamID.videoHeight;
@@ -65,7 +65,7 @@ function cropSelectedArea(event) {
         secondSelectionClick = true;
     }
     else {
-        sendImageForProcess(selectionStartX, selectionStartY, (event.offsetX * streamResolutionX / 640) - selectionStartX, (event.offsetY * streamResolutionY / 400) - selectionStartY);
+        cropAndProcessImage(selectionStartX, selectionStartY, (event.offsetX * streamResolutionX / 640) - selectionStartX, (event.offsetY * streamResolutionY / 400) - selectionStartY);
         secondSelectionClick = false;
     }
 }
@@ -83,7 +83,7 @@ const textOutputID = document.getElementById('textOutput');
 
 startVideoStream()
 
-videoStreamID.addEventListener('click', cropSelectedArea);
+videoStreamID.addEventListener('click', userSelectedArea);
 
 var streamResolutionX = undefined;
 

@@ -12,3 +12,6 @@ pip3 install flask
 ```
 pip3 install manga-ocr
 ```
+
+## Thanks
+Thanks to manga-ocr for making this project possible.
