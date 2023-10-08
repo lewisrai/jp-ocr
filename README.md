@@ -1,5 +1,5 @@
 # JP-OCR
-A web server built in Flask that captures the screen of applications to read text allowing you to translate using Yomichan inside a web browser.
+A web server built in Flask that captures the screen of applications to read text allowing you to translate using Yomichan inside a web browser. Supports only windows.
 
 ## Running JP-OCR
 #### First Time
@@ -10,9 +10,9 @@ rename the folder inside to *OCRModel* and copy the folder and place it inside t
 Run the bat file to run the code. To create a shortcut, use the bat file as the program to run from the shortcut.
 
 ## Dependencies
-[Python 3](https://www.python.org/downloads/) must be installed with the following dependencies: flask and manga-ocr using pip3.
-```pip3 install flask```
-```pip3 install manga-ocr```
+[Python 3](https://www.python.org/downloads/) must be installed with the following dependencies: flask and manga-ocr using pip3. These will also have dependencies.
+`pip3 install flask`
+`pip3 install manga-ocr`
 
 ## Thanks
 Thanks to [manga-ocr](https://github.com/kha-white/manga-ocr) for making this project possible.
