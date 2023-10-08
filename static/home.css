@@ -1,8 +1,8 @@
 body {
-    background-color: #D0D0D0;
+    background-color: #d0d0d0;
 }
 
-#videoStream {
+#video-stream {
     width: 960px;
     height: 600px;
     margin-left: auto;
@@ -12,6 +12,6 @@ body {
     border: 4px solid #707070;
 }
 
-#textOutput {
+#text-output {
     font-size: 48px;
 }

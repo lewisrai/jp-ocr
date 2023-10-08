@@ -39,13 +39,13 @@ function userSelectedArea(event) {
 }
 
 
-const videoStreamID = document.getElementById('videoStream');
+const videoStreamID = document.getElementById('video-stream');
 
 const fullCanvas = document.createElement('canvas');
 
 const croppedCanvas = document.createElement('canvas');
 
-const textOutputID = document.getElementById('textOutput');
+const textOutputID = document.getElementById('text-output');
 
 videoStreamID.addEventListener('click', userSelectedArea);
 

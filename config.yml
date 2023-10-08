@@ -1,3 +1,4 @@
-useLocalModel: True
-debug: False
-port: 6969
+use_local_model: True
+local_model_location: OCRModel
+flask_debug: False
+flask_port: 6969
