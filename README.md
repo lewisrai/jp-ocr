@@ -2,6 +2,9 @@
 A web server built in Flask that captures the screen of applications to read text allowing you to translate using Yomichan inside a web browser.
 
 ## Running JP-OCR
+#### First Time
+Open the config.yml file and change the value ```use_local_model: True``` to ```use_local_model: False``` and run it once to download the model. Once it has launched, close the console using **Control C** and reverse the above change. Go to your user directory **C:\Users\%youruser%\cache\huggingface\hub\models--kha-white--manga-ocr-base\snapshots**, rename the folder inside to **OCRModel** and place it in the same folder as **main.py**.
+#### Once Setup
 Run the bat file to run the code. To create a shortcut, use the bat file as the program to run from the shortcut.
 
 ## Dependencies
