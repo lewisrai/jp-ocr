@@ -10,7 +10,7 @@ import yaml
 
 def main():
     with open("config.yml", "r") as config_file:
-        config_settings = yaml.safe_load(config_file);
+        config_settings = yaml.safe_load(config_file)
 
     if (config_settings["use_local_model"]):
         mocr = MangaOcr(pretrained_model_name_or_path=config_settings["local_model_location"])
