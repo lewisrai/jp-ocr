@@ -65,7 +65,7 @@ navigator.mediaDevices.getDisplayMedia({
             ideal: 1600
         },
         framerate: {
-            max: 15
+            max: 10
         }
     }
 }).then(stream => {
