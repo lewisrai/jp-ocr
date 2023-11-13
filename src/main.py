@@ -5,15 +5,15 @@ from PIL import Image
 import base64
 import re
 import webbrowser
-import yaml
+import toml
 
 
 def main():
-    with open("config.yml", "r") as config_file:
-        config_settings = yaml.safe_load(config_file)
+    with open("config.toml", "r") as config_file:
+        config_settings = toml.load(config_file)
 
-    if (config_settings["use_local_model"]):
-        mocr = MangaOcr(pretrained_model_name_or_path=config_settings["local_model_location"])
+    if (config_settings["model"]["use_local"]):
+        mocr = MangaOcr(pretrained_model_name_or_path=config_settings["model"]["local_location"])
     else:
         mocr = MangaOcr()
 
@@ -31,8 +31,8 @@ def main():
         return mocr(image)
 
 
-    webbrowser.open("http://127.0.0.1:{}".format(config_settings["flask_port"]))
-    flask_app.run(debug=config_settings["flask_debug"], port=config_settings["flask_port"])
+    webbrowser.open(f'http://127.0.0.1:{config_settings["flask"]["port"]}')
+    flask_app.run(debug=config_settings["flask"]["debug"], port=config_settings["flask"]["port"])
 
 
 if __name__ == "__main__":

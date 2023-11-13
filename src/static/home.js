@@ -47,8 +47,6 @@ const croppedCanvas = document.createElement('canvas');
 
 const textOutputID = document.getElementById('text-output');
 
-videoStreamID.addEventListener('click', userSelectedArea);
-
 var streamResolution = {x: undefined, y: undefined};
 
 var cropState = {firstTime: true, endSelection: false};
@@ -71,3 +69,5 @@ navigator.mediaDevices.getDisplayMedia({
 }).then(stream => {
     videoStreamID.srcObject = stream;
 }).catch(console.error);
+
+videoStreamID.addEventListener('click', userSelectedArea);
