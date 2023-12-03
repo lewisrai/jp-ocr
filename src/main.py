@@ -12,7 +12,7 @@ def main():
     with open("config.toml", "r") as config_file:
         config_settings = toml.load(config_file)
 
-    if (config_settings["model"]["use_local"]):
+    if config_settings["model"]["use_local"]:
         mocr = MangaOcr(pretrained_model_name_or_path=config_settings["model"]["local_location"])
     else:
         mocr = MangaOcr()
@@ -22,7 +22,7 @@ def main():
 
     @flask_app.route("/")
     def home():
-        return render_template("home.html")
+        return render_template("index.html")
 
     @flask_app.route("/process", methods=['POST'])
     def process():

@@ -1,0 +1,18 @@
+body {
+    background-color: #dddddd;
+}
+
+#video-stream {
+    border-color: #888888;
+    border-style: solid;
+    border-width: 4px;
+    display: block;
+    margin: auto;
+    object-fit: fill;
+    width: 960px;
+    height: 600px;
+}
+
+#text-output {
+    font-size: 48px;
+}
