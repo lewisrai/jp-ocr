@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request
 from io import BytesIO
-from manga_ocr import MangaOcr
 from PIL import Image
 import base64
 import re
 import webbrowser
+
+from flask import Flask, request, render_template
+from manga_ocr import MangaOcr
 import toml
 
 

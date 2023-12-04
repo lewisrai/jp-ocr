@@ -19,23 +19,26 @@ function cropAndProcessImage(x, y, width, height) {
 
 
 function userSelectedArea(event) {
-    if (cropState.firstTime == true) {
-        streamResolution.x = videoStreamID.videoWidth;
-        streamResolution.y = videoStreamID.videoHeight;
-        fullCanvas.width = streamResolution.x;
-        fullCanvas.height = streamResolution.y;
-        cropState.firstTime = false;
-    }
+    const select = {x: event.offsetX * streamResolution.x / 960, y: event.offsetY * streamResolution.y / 600}
 
-    if (cropState.endSelection == false) {
-        selectionStart.x = event.offsetX * streamResolution.x / 960;
-        selectionStart.y = event.offsetY * streamResolution.y / 600;
-        cropState.endSelection = true;
+
+    if (endSelection == false) {
+        selectionStart.x = select.x;
+        selectionStart.y = select.y;
+        endSelection = true;
     }
     else {
-        cropAndProcessImage(selectionStart.x, selectionStart.y, (event.offsetX * streamResolution.x / 960) - selectionStart.x, (event.offsetY * streamResolution.y / 600) - selectionStart.y);
-        cropState.endSelection = false;
+        cropAndProcessImage(selectionStart.x, selectionStart.y, select.x, select.y);
+        endSelection = false;
     }
+}
+
+
+function streamStarts(event) {
+    streamResolution.x = videoStreamID.videoWidth;
+    streamResolution.y = videoStreamID.videoHeight;
+    fullCanvas.width = streamResolution.x;
+    fullCanvas.height = streamResolution.y;
 }
 
 
@@ -49,7 +52,7 @@ const textOutputID = document.getElementById('text-output');
 
 var streamResolution = {x: undefined, y: undefined};
 
-var cropState = {firstTime: true, endSelection: false};
+var endSelection = false;
 
 var selectionStart = {x: undefined, y: undefined};
 
@@ -71,3 +74,5 @@ navigator.mediaDevices.getDisplayMedia({
 }).catch(console.error);
 
 videoStreamID.addEventListener('click', userSelectedArea);
+
+videoStreamID.addEventListener('play', streamStarts);

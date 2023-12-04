@@ -13,6 +13,7 @@ Run the bat file to run the code. To create a shortcut, use the bat file as the 
 [Python 3](https://www.python.org/downloads/) must be installed with the following dependencies: flask and manga-ocr using pip3. These will also have dependencies.
 `pip3 install flask`
 `pip3 install manga-ocr`
+`pip3 install toml`
 
 ## Thanks
 Thanks to [manga-ocr](https://github.com/kha-white/manga-ocr) for making this project possible.
