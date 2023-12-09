@@ -21,14 +21,13 @@ function cropAndProcessImage(x, y, width, height) {
 function userSelectedArea(event) {
     const select = {x: event.offsetX * streamResolution.x / 960, y: event.offsetY * streamResolution.y / 600}
 
-
     if (endSelection == false) {
         selectionStart.x = select.x;
         selectionStart.y = select.y;
         endSelection = true;
     }
     else {
-        cropAndProcessImage(selectionStart.x, selectionStart.y, select.x, select.y);
+        cropAndProcessImage(selectionStart.x, selectionStart.y, select.x - selectionStart.x, select.y - selectionStart.y);
         endSelection = false;
     }
 }
