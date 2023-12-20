@@ -1,0 +1,6 @@
+flask
+fugashi
+jaconv
+Pillow
+transformers
+unidic_lite

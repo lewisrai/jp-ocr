@@ -1,14 +1,48 @@
-from io import BytesIO
-from PIL import Image
 import base64
+import jaconv
 import re
 
 from flask import Flask, request, render_template
-from manga_ocr import MangaOcr
+from io import BytesIO
+from PIL import Image
+from transformers import AutoFeatureExtractor, AutoTokenizer, VisionEncoderDecoderModel
+
+
+class MangaOcr:
+    def __init__(self, pretrained_model_path="OCRModel"):
+        self.feature_extractor = AutoFeatureExtractor.from_pretrained(pretrained_model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_model_path)
+        self.model = VisionEncoderDecoderModel.from_pretrained(pretrained_model_path)
+
+
+    def __call__(self, img):
+        img = img.convert('L').convert('RGB')
+
+        x = self._preprocess(img)
+        x = self.model.generate(x[None].to(self.model.device), max_length=300)[0].cpu()
+        x = self.tokenizer.decode(x, skip_special_tokens=True)
+        x = self._post_process(x)
+
+        return x
+
+
+    def _preprocess(self, img):
+        pixel_values = self.feature_extractor(img, return_tensors="pt").pixel_values
+
+        return pixel_values.squeeze()
+
+
+    def _post_process(self, text):
+        text = ''.join(text.split())
+        text = text.replace('…', '...')
+        text = re.sub('[・.]{2,}', lambda x: (x.end() - x.start()) * '.', text)
+        text = jaconv.h2z(text, ascii=True, digit=True)
+
+        return text
 
 
 def main():
-    mocr = MangaOcr(pretrained_model_name_or_path="OCRModel")
+    mocr = MangaOcr()
 
 
     flask_app = Flask(__name__)
@@ -24,8 +58,7 @@ def main():
         return mocr(image)
 
 
-    print("\nhttp://127.0.0.1:5000\n")
-    flask_app.run()
+    flask_app.run(host="0.0.0.0")
 
 
 if __name__ == "__main__":
