@@ -7,7 +7,7 @@ function cropAndProcessImage(x, y, width, height) {
 
     $.ajax({
         type: "POST",
-        url: "/process",
+        url: "/api",
         data: {
             imageBase64: croppedCanvas.toDataURL()
         },

@@ -1,7 +1,0 @@
-[flask]
-debug = false
-port = 6969
-
-[model]
-use_local = true
-local_location = "OCRModel"
