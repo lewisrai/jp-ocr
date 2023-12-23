@@ -18,21 +18,21 @@ class MangaOcr:
     def __call__(self, img):
         img = img.convert('L').convert('RGB')
 
-        x = self._preprocess(img)
+        x = self._process_pixels(img)
         x = self.model.generate(x[None].to(self.model.device), max_length=300)[0].cpu()
         x = self.tokenizer.decode(x, skip_special_tokens=True)
-        x = self._post_process(x)
+        x = self._process_text(x)
 
         return x
 
 
-    def _preprocess(self, img):
+    def _process_pixels(self, img):
         pixel_values = self.feature_extractor(img, return_tensors="pt").pixel_values
 
         return pixel_values.squeeze()
 
 
-    def _post_process(self, text):
+    def _process_text(self, text):
         text = ''.join(text.split())
         text = text.replace('…', '...')
         text = re.sub('[・.]{2,}', lambda x: (x.end() - x.start()) * '.', text)

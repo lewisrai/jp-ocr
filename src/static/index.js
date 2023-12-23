@@ -36,8 +36,8 @@ function userSelectedArea(event) {
 function streamStarts(event) {
     streamResolution.x = videoStreamID.videoWidth;
     streamResolution.y = videoStreamID.videoHeight;
-    fullCanvas.width = streamResolution.x;
-    fullCanvas.height = streamResolution.y;
+    fullCanvas.width = videoStreamID.videoWidth;
+    fullCanvas.height = videoStreamID.videoHeight;
 }
 
 
@@ -49,11 +49,11 @@ const croppedCanvas = document.createElement('canvas');
 
 const textOutputID = document.getElementById('text-output');
 
-var streamResolution = {x: undefined, y: undefined};
+const streamResolution = {x: undefined, y: undefined};
 
 var endSelection = false;
 
-var selectionStart = {x: undefined, y: undefined};
+const selectionStart = {x: undefined, y: undefined};
 
 navigator.mediaDevices.getDisplayMedia({
     audio: false,
@@ -72,6 +72,6 @@ navigator.mediaDevices.getDisplayMedia({
     videoStreamID.srcObject = stream;
 }).catch(console.error);
 
-videoStreamID.addEventListener('click', userSelectedArea);
-
 videoStreamID.addEventListener('play', streamStarts);
+
+videoStreamID.addEventListener('click', userSelectedArea);
