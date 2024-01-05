@@ -1,9 +1,7 @@
 function cropAndProcessImage(x, y, width, height) {
-    fullCanvas.getContext('2d').drawImage(videoStreamID, 0, 0);
-
     croppedCanvas.width = width;
     croppedCanvas.height = height;
-    croppedCanvas.getContext('2d').drawImage(fullCanvas, x, y, width, height, 0, 0, width, height);
+    croppedCanvas.getContext('2d').drawImage(videoStreamID, x, y, width, height, 0, 0, width, height);
 
     $.ajax({
         type: "POST",
@@ -19,7 +17,7 @@ function cropAndProcessImage(x, y, width, height) {
 
 
 function userSelectedArea(event) {
-    const select = {x: event.offsetX * streamResolution.x / 960, y: event.offsetY * streamResolution.y / 600}
+    const select = {x: event.offsetX * videoStreamID.videoWidth / 960, y: event.offsetY * videoStreamID.videoHeight / 600}
 
     if (endSelection == false) {
         selectionStart.x = select.x;
@@ -33,27 +31,15 @@ function userSelectedArea(event) {
 }
 
 
-function streamStarts(event) {
-    streamResolution.x = videoStreamID.videoWidth;
-    streamResolution.y = videoStreamID.videoHeight;
-    fullCanvas.width = videoStreamID.videoWidth;
-    fullCanvas.height = videoStreamID.videoHeight;
-}
-
-
 const videoStreamID = document.getElementById('video-stream');
-
-const fullCanvas = document.createElement('canvas');
-
-const croppedCanvas = document.createElement('canvas');
 
 const textOutputID = document.getElementById('text-output');
 
-const streamResolution = {x: undefined, y: undefined};
-
-var endSelection = false;
+const croppedCanvas = document.createElement('canvas');
 
 const selectionStart = {x: undefined, y: undefined};
+
+var endSelection = false;
 
 navigator.mediaDevices.getDisplayMedia({
     audio: false,
@@ -71,7 +57,5 @@ navigator.mediaDevices.getDisplayMedia({
 }).then(stream => {
     videoStreamID.srcObject = stream;
 }).catch(console.error);
-
-videoStreamID.addEventListener('play', streamStarts);
 
 videoStreamID.addEventListener('click', userSelectedArea);

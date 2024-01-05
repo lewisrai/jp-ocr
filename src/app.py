@@ -11,28 +11,18 @@ from transformers import AutoFeatureExtractor, AutoTokenizer, VisionEncoderDecod
 class MangaOcr:
     def __init__(self, pretrained_model_path="OCRModel"):
         self.feature_extractor = AutoFeatureExtractor.from_pretrained(pretrained_model_path)
-        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_model_path)
         self.model = VisionEncoderDecoderModel.from_pretrained(pretrained_model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained(pretrained_model_path)
 
 
     def __call__(self, img):
         img = img.convert('L').convert('RGB')
+        img = self.feature_extractor(img, return_tensors="pt").pixel_values
+        img = img.squeeze()
 
-        x = self._process_pixels(img)
-        x = self.model.generate(x[None].to(self.model.device), max_length=300)[0].cpu()
-        x = self.tokenizer.decode(x, skip_special_tokens=True)
-        x = self._process_text(x)
+        x = self.model.generate(img[None].to(self.model.device), max_length=300)[0].cpu()
+        text = self.tokenizer.decode(x, skip_special_tokens=True)
 
-        return x
-
-
-    def _process_pixels(self, img):
-        pixel_values = self.feature_extractor(img, return_tensors="pt").pixel_values
-
-        return pixel_values.squeeze()
-
-
-    def _process_text(self, text):
         text = ''.join(text.split())
         text = text.replace('…', '...')
         text = re.sub('[・.]{2,}', lambda x: (x.end() - x.start()) * '.', text)
