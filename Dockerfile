@@ -10,4 +10,4 @@ COPY /src /ocrserver
 
 STOPSIGNAL SIGINT
 
-ENTRYPOINT ["/bin/bash", "-c", "python3", "app.py"]
+CMD ["python3", "app.py"]
