@@ -2,5 +2,6 @@ flask
 fugashi
 jaconv
 Pillow
+torch
 transformers
 unidic_lite

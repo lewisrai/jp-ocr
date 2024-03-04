@@ -37,19 +37,19 @@ class MangaOcr:
 def main():
     mocr = MangaOcr()
 
-    flask_app = Flask(__name__)
+    app = Flask(__name__)
 
-    @flask_app.route("/")
+    @app.route("/")
     def home():
         return render_template("index.html")
 
-    @flask_app.route("/api", methods=["POST"])
+    @app.route("/api", methods=["POST"])
     def process():
         image_base64 = re.sub("^data:image/.+;base64,", "", request.form["imageBase64"])
         image = Image.open(BytesIO(base64.b64decode(image_base64)))
         return mocr(image)
 
-    flask_app.run(host="0.0.0.0")
+    app.run()
 
 
 if __name__ == "__main__":
