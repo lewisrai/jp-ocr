@@ -1,2 +1,4 @@
-.venv/
-/src/OCRModel
+__pycache__/
+/.venv
+/src/manga_ocr/model
+/src/text_detector/model

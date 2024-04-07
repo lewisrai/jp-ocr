@@ -1,50 +1,24 @@
-function cropAndProcessImage(x, y, width, height) {
-    croppedCanvas.width = width;
-    croppedCanvas.height = height;
-    croppedCanvas
-        .getContext("2d")
-        .drawImage(videoStreamID, x, y, width, height, 0, 0, width, height);
+async function processImage(x, y, width, height) {
+    croppedCanvas.width = videoStreamID.videoWidth;
+    croppedCanvas.height = videoStreamID.videoHeight;
+    croppedCanvas.getContext("2d").drawImage(videoStreamID, 0, 0);
 
-    $.ajax({
-        type: "POST",
-        url: "/api",
-        data: { imageBase64: croppedCanvas.toDataURL() },
-        success: (response) => {
-            textOutputID.innerHTML = response;
+    const response = await fetch("http://127.0.0.1:5000/api", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
         },
+        body: croppedCanvas.toDataURL(),
     });
-}
 
-function userSelectedArea(event) {
-    const select = {
-        x: (event.offsetX * videoStreamID.videoWidth) / 960,
-        y: (event.offsetY * videoStreamID.videoHeight) / 600,
-    };
+    const data = await response.json();
 
-    if (endSelection === false) {
-        selectionStart.x = select.x;
-        selectionStart.y = select.y;
-        endSelection = true;
-    } else {
-        cropAndProcessImage(
-            selectionStart.x,
-            selectionStart.y,
-            select.x - selectionStart.x,
-            select.y - selectionStart.y,
-        );
-        endSelection = false;
-    }
+    console.log(data);
 }
 
 const videoStreamID = document.getElementById("video-stream");
 
-const textOutputID = document.getElementById("text-output");
-
 const croppedCanvas = document.createElement("canvas");
-
-const selectionStart = { x: undefined, y: undefined };
-
-let endSelection = false;
 
 navigator.mediaDevices
     .getDisplayMedia({
@@ -63,7 +37,6 @@ navigator.mediaDevices
     })
     .then((stream) => {
         videoStreamID.srcObject = stream;
-    })
-    .catch(console.error);
+    });
 
-videoStreamID.addEventListener("click", userSelectedArea);
+videoStreamID.addEventListener("click", processImage);
