@@ -11,7 +11,7 @@ def main():
     def index():
         return render_template("index.html")
 
-    @app.route("/api", methods=["POST"])
+    @app.route("/api/", methods=["POST"])
     def api():
         image_base64 = request.get_data(as_text=True).split(",")[1]
 

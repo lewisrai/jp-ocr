@@ -3,7 +3,7 @@ async function processImage(x, y, width, height) {
     croppedCanvas.height = videoStreamID.videoHeight;
     croppedCanvas.getContext("2d").drawImage(videoStreamID, 0, 0);
 
-    const response = await fetch("http://127.0.0.1:5000/api", {
+    const response = await fetch("http://127.0.0.1:5000/api/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -16,12 +16,12 @@ async function processImage(x, y, width, height) {
     console.log(data);
 }
 
-const videoStreamID = document.getElementById("video-stream");
+window.onload = async () => {
+    croppedCanvas = document.createElement("canvas");
 
-const croppedCanvas = document.createElement("canvas");
+    videoStreamID = document.getElementById("video-stream");
 
-navigator.mediaDevices
-    .getDisplayMedia({
+    videoStreamID.srcObject = await navigator.mediaDevices.getDisplayMedia({
         audio: false,
         video: {
             width: {
@@ -34,9 +34,10 @@ navigator.mediaDevices
                 max: 5,
             },
         },
-    })
-    .then((stream) => {
-        videoStreamID.srcObject = stream;
     });
 
-videoStreamID.addEventListener("click", processImage);
+    videoStreamID.addEventListener("click", processImage);
+};
+
+let videoStreamID;
+let croppedCanvas;
