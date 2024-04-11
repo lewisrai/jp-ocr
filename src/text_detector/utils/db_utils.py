@@ -573,7 +573,7 @@ def shrink_polygon_pyclipper(polygon, shrink_ratio):
     distance = (
         polygon_shape.area * (1 - np.power(shrink_ratio, 2)) / polygon_shape.length
     )
-    subject = [tuple(l) for l in polygon]
+    subject = [tuple(p) for p in polygon]
     padding = pyclipper.PyclipperOffset()
     padding.AddPath(subject, pyclipper.JT_ROUND, pyclipper.ET_CLOSEDPOLYGON)
     shrunk = padding.Execute(-distance)
@@ -697,7 +697,7 @@ class MakeBorderMap:
             * (1 - np.power(self.shrink_ratio, 2))
             / polygon_shape.length
         )
-        subject = [tuple(l) for l in polygon]
+        subject = [tuple(p) for p in polygon]
         padding = pyclipper.PyclipperOffset()
         padding.AddPath(subject, pyclipper.JT_ROUND, pyclipper.ET_CLOSEDPOLYGON)
 
