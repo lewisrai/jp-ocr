@@ -1,9 +1,22 @@
 body {
-    margin: 0px;
-    overflow: hidden;
+    background-color: #7180AC;
+    text-align: center;
 }
 
 #video-stream {
-    width: 100%;
-    height: 100%;
+    object-fit: fill;
+    width: 960px;
+    height: 600px;
+}
+
+button {
+    cursor: pointer;
+}
+
+#text-output {
+    background-color: #fcffeb;
+    border-radius: 10px;
+    display: inline;
+    font-size: 36px;
+    padding: 10px;
 }

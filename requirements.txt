@@ -1,12 +1,2 @@
 flask
-fugashi
-jaconv
-opencv-python
-Pillow
-pyclipper
-scipy
-shapely
-torch
-torchvision
-transformers
-unidic_lite
+manga-ocr
